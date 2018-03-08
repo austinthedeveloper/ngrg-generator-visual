@@ -1,10 +1,21 @@
 <form *ngFor="let item of items">
   <mat-form-field>
-    <input matInput placeholder="Input" [(ngModel)]="item.name" name="name-{{item.id}}">
+    <input matInput placeholder="Name" [(ngModel)]="item.name" name="name-{{item.id}}">
   </mat-form-field>
-  <mat-checkbox *ngFor="let checkbox of types"
+  <mat-form-field>
+    <input matInput placeholder="Path" [(ngModel)]="item.path" name="path-{{item.id}}">
+  </mat-form-field>
+  <div>
+    <mat-checkbox *ngFor="let checkbox of types"
     [(ngModel)]="item.types[checkbox.value]"
     name="checkbox-{{checkbox.name}}-{{item.id}}">{{checkbox.name}}</mat-checkbox>
+  </div>
+  <div>
+    <mat-checkbox *ngFor="let checkbox of flags"
+    [(ngModel)]="item.flags[checkbox.value]"
+    name="checkbox-{{checkbox.name}}-{{item.id}}">{{checkbox.name}}</mat-checkbox>
+  </div>
+
   <div *ngIf="item.name">
     {{builtString(item)}}
   </div>

@@ -3,6 +3,9 @@ import * as _ from 'lodash';
 
 export class GeneratedItem {
   name: string;
+  path: string;
+  module: string;
+
   id: number;
   types = {
     reducer: false,
@@ -12,8 +15,8 @@ export class GeneratedItem {
   flags = {
     flat: true,
     group: false,
+    test: false
   };
-  module: string;
 
   constructor(id: number) {
     this.id = id;
@@ -36,6 +39,12 @@ export class NgrxGeneratorComponent implements OnInit {
     {name: 'Effect', value: 'effect'},
   ];
 
+  flags = [
+    {name: 'Dry Run', value: 'test'},
+    {name: 'Group', value: 'group'},
+    {name: 'Flatten', value: 'flat'},
+  ];
+
   generate = 'ng g ';
   connector = ' && ';
 
@@ -52,11 +61,14 @@ export class NgrxGeneratorComponent implements OnInit {
   builtString(item: GeneratedItem) {
     let res = '';
     const flat = item.flags.flat ? '' : '--flat false';
-    const group = item.flags.group ? '' : '--group true';
+    const group = item.flags.group ? '--group true' : '';
+    const test = item.flags.test ? '--dry-run' : '';
+    const flags = `${flat} ${group} ${test}`;
+    const path = item.path ? `${item.path}/` : '';
     _.forEach(item.types, (type, key) => {
       if (type) {
-        const string = `${this.generate} ${key} ${item.name}`;
-        res = res.length ? `${res} ${this.connector} ${string}` : `${res} ${string}`;
+        const string = `${this.generate} ${key} ${path}${item.name}`;
+        res = res.length ? `${res} ${this.connector} ${string} ${flags}` : `${res} ${string} ${flags}`;
       }
     });
     return res;
