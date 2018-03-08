@@ -31,7 +31,7 @@ export class GeneratedItem {
 
 export class NgrxGeneratorComponent implements OnInit {
 
-  items: any[] = [];
+  items: GeneratedItem[] = [];
 
   types = [
     {name: 'Reducer', value: 'reducer'},
@@ -58,12 +58,23 @@ export class NgrxGeneratorComponent implements OnInit {
     this.items.push(new GeneratedItem(Math.random()));
   }
 
+  copyItem(item: GeneratedItem) {
+    const res = _.cloneDeep(item);
+    res.id = Math.random();
+    this.items.push(res);
+  }
+
+  deleteItem(id: number) {
+    this.items = _.reject(this.items, ['id', id]);
+  }
+
   builtString(item: GeneratedItem) {
     let res = '';
     const flat = item.flags.flat ? '' : '--flat false';
     const group = item.flags.group ? '--group true' : '';
     const test = item.flags.test ? '--dry-run' : '';
-    const flags = `${flat} ${group} ${test}`;
+    const module = item.module ? `--module ${item.module}` : '';
+    const flags = `${flat} ${group} ${test} ${module}`;
     const path = item.path ? `${item.path}/` : '';
     _.forEach(item.types, (type, key) => {
       if (type) {
