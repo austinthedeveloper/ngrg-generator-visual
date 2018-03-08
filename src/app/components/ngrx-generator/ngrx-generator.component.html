@@ -1,0 +1,12 @@
+<form *ngFor="let item of items">
+  <mat-form-field>
+    <input matInput placeholder="Input" [(ngModel)]="item.name" name="name-{{item.id}}">
+  </mat-form-field>
+  <mat-checkbox *ngFor="let checkbox of types"
+    [(ngModel)]="item.types[checkbox.value]"
+    name="checkbox-{{checkbox.name}}-{{item.id}}">{{checkbox.name}}</mat-checkbox>
+  <div *ngIf="item.name">
+    {{builtString(item)}}
+  </div>
+</form>
+<button mat-raised-button color="primary" (click)="newItem()">Add</button>
