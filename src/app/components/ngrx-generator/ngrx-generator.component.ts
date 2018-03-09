@@ -16,7 +16,8 @@ export class GeneratedItem {
   flags = {
     flat: true,
     group: false,
-    test: false
+    test: false,
+    spec: true
   };
 
   constructor(id: number) {
@@ -44,10 +45,11 @@ export class NgrxGeneratorComponent implements OnInit {
     {name: 'Dry Run', value: 'test'},
     {name: 'Group', value: 'group'},
     {name: 'Flatten', value: 'flat'},
+    {name: 'Spec', value: 'spec'}
   ];
 
-  generate = 'ng g ';
-  connector = ' && ';
+  generate = 'ng g';
+  connector = '&&';
 
   constructor(public snackBar: MatSnackBar) { }
 
@@ -80,16 +82,17 @@ export class NgrxGeneratorComponent implements OnInit {
       return;
     }
     let res = '';
-    const flat = item.flags.flat ? '' : '--flat false';
-    const group = item.flags.group ? '--group true' : '';
-    const test = item.flags.test ? '--dry-run' : '';
-    const module = item.module ? `--module ${item.module}` : '';
-    const flags = `${flat} ${group} ${test} ${module}`;
+    const flat = item.flags.flat ? '' : ' --flat false';
+    const spec = item.flags.spec ? '' : ' --spec false';
+    const group = item.flags.group ? ' --group true' : '';
+    const test = item.flags.test ? ' --dry-run' : '';
+    const module = item.module ? ` --module ${item.module}` : '';
+    const flags = `${flat}${spec}${group}${test}${module}`;
     const path = item.path ? `${item.path}/` : '';
     _.forEach(item.types, (type, key) => {
       if (type) {
         const string = `${this.generate} ${key} ${path}${item.name}`;
-        res = res.length ? `${res} ${this.connector} ${string} ${flags}` : `${res} ${string} ${flags}`;
+        res = res.length ? `${res} ${this.connector} ${string}${flags}` : `${res} ${string}${flags}`;
       }
     });
 
