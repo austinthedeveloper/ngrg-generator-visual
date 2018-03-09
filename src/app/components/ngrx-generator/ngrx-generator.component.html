@@ -1,5 +1,5 @@
-<mat-card>
-  <form *ngFor="let item of items; let i = index">
+<mat-card *ngFor="let item of items; let i = index">
+  <form>
       <mat-form-field>
         <input matInput placeholder="Name" [(ngModel)]="item.name" name="name-{{item.id}}">
       </mat-form-field>
@@ -19,14 +19,22 @@
         [(ngModel)]="item.flags[checkbox.value]"
         name="checkbox-{{checkbox.name}}-{{item.id}}">{{checkbox.name}}</mat-checkbox>
       </div>
-
-      <div *ngIf="item.name">
-        <h1>Terminal Command</h1>
-        {{builtString(item)}}
-      </div>
-      <button mat-raised-button (click)="copyItem(item)">Copy</button>
-      <button mat-raised-button color="warn" (click)="deleteItem(item.id)">Delete</button>
+      <mat-card *ngIf="item.name">
+        <mat-card-title>
+          Terminal Command
+        </mat-card-title>
+        <mat-card-content>
+          <div class="code-block">{{builtString(item)}}</div>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-raised-button ngxClipboard [cbContent]="builtString(item)" (cbOnSuccess)="copyClipboard()">Copy Code</button>
+        </mat-card-actions>
+      </mat-card>
     </form>
+    <mat-card-actions align="right">
+        <button mat-raised-button (click)="copyItem(item)">Copy Item</button>
+        <button mat-raised-button color="warn" (click)="deleteItem(item.id)">Delete</button>
+    </mat-card-actions>
 </mat-card>
 
 

@@ -10,7 +10,7 @@ import { environment } from '../environments/environment';
 import { MaterialsModule } from './material.module';
 import { NgrxGeneratorComponent } from './components/ngrx-generator/ngrx-generator.component';
 import { FormsModule } from '@angular/forms';
-
+import { ClipboardModule } from 'ngx-clipboard';
 
 @NgModule({
   declarations: [
@@ -23,7 +23,8 @@ import { FormsModule } from '@angular/forms';
     BrowserAnimationsModule,
     FormsModule,
     StoreModule.forRoot(reducers, { metaReducers }),
-    !environment.production ? StoreDevtoolsModule.instrument() : []
+    !environment.production ? StoreDevtoolsModule.instrument() : [],
+    ClipboardModule
   ],
   providers: [],
   bootstrap: [AppComponent]

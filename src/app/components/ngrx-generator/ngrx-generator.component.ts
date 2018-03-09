@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {MatSnackBar} from '@angular/material';
 import * as _ from 'lodash';
 
 export class GeneratedItem {
@@ -48,7 +49,7 @@ export class NgrxGeneratorComponent implements OnInit {
   generate = 'ng g ';
   connector = ' && ';
 
-  constructor() { }
+  constructor(public snackBar: MatSnackBar) { }
 
   ngOnInit() {
     this.newItem();
@@ -62,10 +63,16 @@ export class NgrxGeneratorComponent implements OnInit {
     const res = _.cloneDeep(item);
     res.id = Math.random();
     this.items.push(res);
+    this.snackMessage('Item Copied');
   }
 
   deleteItem(id: number) {
     this.items = _.reject(this.items, ['id', id]);
+    this.snackMessage('Item Deleted');
+  }
+
+  copyClipboard() {
+    this.snackMessage('Copied to Clipboard!');
   }
 
   builtString(item: GeneratedItem) {
@@ -82,7 +89,14 @@ export class NgrxGeneratorComponent implements OnInit {
         res = res.length ? `${res} ${this.connector} ${string} ${flags}` : `${res} ${string} ${flags}`;
       }
     });
-    return res;
+
+    return res.replace(/\s\s/g, ' ');
+  }
+
+  snackMessage(message: string, action = 'Dismiss') {
+    this.snackBar.open(message, '', {
+      duration: 500,
+    });
   }
 
 }
