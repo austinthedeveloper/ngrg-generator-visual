@@ -12,6 +12,7 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 import { NgrxGeneratorComponent } from './components/ngrx-generator/ngrx-generator.component';
 import { FormsModule } from '@angular/forms';
 import { ClipboardModule } from 'ngx-clipboard';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { ClipboardModule } from 'ngx-clipboard';
     FormsModule,
     StoreModule.forRoot(reducers, { metaReducers }),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
-    ClipboardModule
+    ClipboardModule,
+    NgbModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]
