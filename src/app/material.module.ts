@@ -6,7 +6,7 @@ const MaterialArray = [
   fromMaterial.MatButtonModule, fromMaterial.MatFormFieldModule,
   fromMaterial.MatSelectModule, fromMaterial.MatInputModule,
   fromMaterial.MatCheckboxModule, fromMaterial.MatCardModule,
-  fromMaterial.MatSnackBarModule
+  fromMaterial.MatSnackBarModule, fromMaterial.MatListModule
 ];
 @NgModule({
   imports: MaterialArray,

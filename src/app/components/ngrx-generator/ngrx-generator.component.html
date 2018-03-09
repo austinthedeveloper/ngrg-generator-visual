@@ -1,5 +1,8 @@
 <mat-card *ngFor="let item of items; let i = index">
-  <form>
+  <mat-card-title>
+    Store Item
+  </mat-card-title>
+  <form fxflex fxLayout="column">
       <mat-form-field>
         <input matInput placeholder="Name" [(ngModel)]="item.name" name="name-{{item.id}}">
       </mat-form-field>
@@ -9,15 +12,28 @@
       <mat-form-field>
         <input matInput placeholder="Module" [(ngModel)]="item.module" name="module-{{item.id}}">
       </mat-form-field>
-      <div>
-        <mat-checkbox *ngFor="let checkbox of types"
-        [(ngModel)]="item.types[checkbox.value]"
-        name="checkbox-{{checkbox.name}}-{{item.id}}">{{checkbox.name}}</mat-checkbox>
-      </div>
-      <div>
-        <mat-checkbox *ngFor="let checkbox of flags"
-        [(ngModel)]="item.flags[checkbox.value]"
-        name="checkbox-{{checkbox.name}}-{{item.id}}">{{checkbox.name}}</mat-checkbox>
+      <div fxflex fxLayout="row" fxLayoutAlign="space-evenly stretch" >
+        <div>
+          <h3>Types</h3>
+          <mat-selection-list>
+            <mat-list-option *ngFor="let checkbox of types"
+            [selected]="item.types[checkbox.value]"
+            (click)="item.types[checkbox.value] = !item.types[checkbox.value]">
+              {{checkbox.name}}
+            </mat-list-option>
+          </mat-selection-list>
+        </div>
+        <div>
+          <h3>Flags</h3>
+          <mat-selection-list>
+            <mat-list-option *ngFor="let checkbox of flags"
+            [selected]="item.flags[checkbox.value]"
+            (click)="item.flags[checkbox.value] = !item.flags[checkbox.value]">
+              {{checkbox.name}}
+            </mat-list-option>
+          </mat-selection-list>
+        </div>
+
       </div>
       <mat-card *ngIf="item.name">
         <mat-card-title>

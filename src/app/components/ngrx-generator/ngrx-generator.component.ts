@@ -76,6 +76,9 @@ export class NgrxGeneratorComponent implements OnInit {
   }
 
   builtString(item: GeneratedItem) {
+    if (!this.checkTypes(item.types)) {
+      return;
+    }
     let res = '';
     const flat = item.flags.flat ? '' : '--flat false';
     const group = item.flags.group ? '--group true' : '';
@@ -97,6 +100,11 @@ export class NgrxGeneratorComponent implements OnInit {
     this.snackBar.open(message, '', {
       duration: 500,
     });
+  }
+
+  checkTypes(types) {
+    const array = _(types).pickBy(_.identity).keys().value();
+    return array.length ? true : false;
   }
 
 }
