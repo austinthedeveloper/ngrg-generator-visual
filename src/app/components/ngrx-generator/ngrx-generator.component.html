@@ -1,0 +1,57 @@
+<mat-card *ngFor="let item of items; let i = index">
+  <mat-card-title>
+    Store Item
+  </mat-card-title>
+  <form fxflex fxLayout="column">
+      <mat-form-field>
+        <input matInput placeholder="Name" [(ngModel)]="item.name" name="name-{{item.id}}">
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Path" [(ngModel)]="item.path" name="path-{{item.id}}">
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Module" [(ngModel)]="item.module" name="module-{{item.id}}">
+      </mat-form-field>
+      <div fxflex fxLayout="row" fxLayoutAlign="space-evenly stretch" >
+        <div>
+          <h3>Types</h3>
+          <mat-selection-list>
+            <mat-list-option *ngFor="let checkbox of types"
+            [selected]="item.types[checkbox.value]"
+            (click)="item.types[checkbox.value] = !item.types[checkbox.value]">
+              {{checkbox.name}}
+            </mat-list-option>
+          </mat-selection-list>
+        </div>
+        <div>
+          <h3>Flags</h3>
+          <mat-selection-list>
+            <mat-list-option *ngFor="let checkbox of flags"
+            [selected]="item.flags[checkbox.value]"
+            (click)="item.flags[checkbox.value] = !item.flags[checkbox.value]">
+              {{checkbox.name}}
+            </mat-list-option>
+          </mat-selection-list>
+        </div>
+
+      </div>
+      <mat-card *ngIf="item.name">
+        <mat-card-title>
+          Terminal Command
+        </mat-card-title>
+        <mat-card-content>
+          <div class="code-block">{{builtString(item)}}</div>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-raised-button ngxClipboard [cbContent]="builtString(item)" (cbOnSuccess)="copyClipboard()">Copy Code</button>
+        </mat-card-actions>
+      </mat-card>
+    </form>
+    <mat-card-actions align="right">
+        <button mat-raised-button (click)="copyItem(item)">Copy Item</button>
+        <button mat-raised-button color="warn" (click)="deleteItem(item.id)">Delete</button>
+    </mat-card-actions>
+</mat-card>
+
+
+<button mat-raised-button color="primary" (click)="newItem()">Add</button>
