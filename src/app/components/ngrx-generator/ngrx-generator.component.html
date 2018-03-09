@@ -1,4 +1,4 @@
-<mat-card *ngFor="let item of items; let i = index">
+<mat-card class="generator-card" *ngFor="let item of items; let i = index">
   <mat-card-title>
     Store Item
   </mat-card-title>
@@ -49,7 +49,9 @@
     </form>
     <mat-card-actions align="right">
         <button mat-raised-button (click)="copyItem(item)">Copy Item</button>
-        <button mat-raised-button color="warn" (click)="deleteItem(item.id)">Delete</button>
+        <button mat-raised-button color="warn"
+        (click)="deleteItem(item.id)"
+        [disabled]="">Delete</button>
     </mat-card-actions>
 </mat-card>
 
