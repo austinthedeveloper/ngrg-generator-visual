@@ -1,29 +1,11 @@
+import { GeneratedItem } from './../../classes/generated-item.class';
+import { Observable } from 'rxjs/Observable';
+import { map, tap } from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
 import {MatSnackBar} from '@angular/material';
 import * as _ from 'lodash';
-
-export class GeneratedItem {
-  name: string;
-  path: string;
-  module: string;
-
-  id: number;
-  types = {
-    reducer: false,
-    action: false,
-    effect: false,
-  };
-  flags = {
-    flat: true,
-    group: false,
-    test: false,
-    spec: true
-  };
-
-  constructor(id: number) {
-    this.id = id;
-  }
-}
+import {Store} from '@ngrx/store';
+import * as fromActions from '../../store/actions';
 
 @Component({
   selector: 'ngrx-generator',
@@ -32,8 +14,7 @@ export class GeneratedItem {
 })
 
 export class NgrxGeneratorComponent implements OnInit {
-
-  items: GeneratedItem[] = [];
+  items$: Observable<GeneratedItem[]>;
 
   types = [
     {name: 'Reducer', value: 'reducer'},
@@ -51,26 +32,47 @@ export class NgrxGeneratorComponent implements OnInit {
   generate = 'ng g';
   connector = '&&';
 
-  constructor(public snackBar: MatSnackBar) { }
+  constructor(
+    private snackBar: MatSnackBar,
+    private store: Store<any>
+  ) { }
 
   ngOnInit() {
     this.newItem();
+    this.items$ = this.store.select('item').pipe(
+      tap(res => console.log(res)),
+      map(res => {
+        return Object.keys(res.entities).map(id => res.entities[parseInt(id, 10)]);
+      })
+    );
   }
 
   newItem() {
-    this.items.push(new GeneratedItem(Math.random()));
+    const newItem = new GeneratedItem();
+    this.store.dispatch({
+      type: fromActions.ItemActionTypes.add,
+      payload: newItem
+    });
+
   }
 
   copyItem(item: GeneratedItem) {
     const res = _.cloneDeep(item);
-    res.id = Math.random();
-    this.items.push(res);
+    res.id = Math.floor(Math.random() * (500 - 100 + 1)) + 100;
+    this.store.dispatch({
+      type: fromActions.ItemActionTypes.add,
+      payload: res
+    });
     this.snackMessage('Item Copied');
   }
 
-  deleteItem(id: number) {
-    this.items = _.reject(this.items, ['id', id]);
+  deleteItem(item: GeneratedItem) {
     this.snackMessage('Item Deleted');
+
+    this.store.dispatch({
+      type: fromActions.ItemActionTypes.remove,
+      payload: item
+    });
   }
 
   copyClipboard() {
