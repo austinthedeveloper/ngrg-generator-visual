@@ -14,6 +14,8 @@ import { ClipboardModule } from 'ngx-clipboard';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { reducers, metaReducers } from './store';
 
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -25,10 +27,10 @@ import { reducers, metaReducers } from './store';
     FlexLayoutModule,
     BrowserAnimationsModule,
     FormsModule,
-    !environment.production ? StoreDevtoolsModule.instrument() : [],
     ClipboardModule,
     NgbModule.forRoot(),
-    StoreModule.forRoot(reducers, { metaReducers })
+    StoreModule.forRoot(reducers, { metaReducers }),
+    !environment.production ? StoreDevtoolsModule.instrument() : [],
   ],
   providers: [],
   bootstrap: [AppComponent]

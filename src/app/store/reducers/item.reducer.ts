@@ -16,7 +16,8 @@ export const initialState: State = {
 
 export function reducer(state = initialState, action: fromAction.ItemActions): State {
   switch (action.type) {
-    case fromAction.ItemActionTypes.add: {
+    case fromAction.ItemActionTypes.add:
+    case fromAction.ItemActionTypes.copy: {
       const item = action.payload;
       const entities = {
         ...state.entities,

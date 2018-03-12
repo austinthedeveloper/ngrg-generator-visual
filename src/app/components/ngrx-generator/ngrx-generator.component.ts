@@ -60,7 +60,7 @@ export class NgrxGeneratorComponent implements OnInit {
     const res = _.cloneDeep(item);
     res.id = Math.floor(Math.random() * (500 - 100 + 1)) + 100;
     this.store.dispatch({
-      type: fromActions.ItemActionTypes.add,
+      type: fromActions.ItemActionTypes.copy,
       payload: res
     });
     this.snackMessage('Item Copied');
