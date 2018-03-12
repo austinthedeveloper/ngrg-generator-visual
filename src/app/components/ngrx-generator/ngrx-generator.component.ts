@@ -5,7 +5,7 @@ import { Component, OnInit } from '@angular/core';
 import {MatSnackBar} from '@angular/material';
 import * as _ from 'lodash';
 import {Store} from '@ngrx/store';
-import * as fromActions from '../../store/actions';
+import * as fromStore from '../../store';
 
 @Component({
   selector: 'ngrx-generator',
@@ -34,23 +34,18 @@ export class NgrxGeneratorComponent implements OnInit {
 
   constructor(
     private snackBar: MatSnackBar,
-    private store: Store<any>
+    private store: Store<fromStore.State>
   ) { }
 
   ngOnInit() {
     this.newItem();
-    this.items$ = this.store.select('item').pipe(
-      tap(res => console.log(res)),
-      map(res => {
-        return Object.keys(res.entities).map(id => res.entities[parseInt(id, 10)]);
-      })
-    );
+    this.items$ = this.store.select(fromStore.getItems);
   }
 
   newItem() {
     const newItem = new GeneratedItem();
     this.store.dispatch({
-      type: fromActions.ItemActionTypes.add,
+      type: fromStore.ItemActionTypes.add,
       payload: newItem
     });
 
@@ -60,7 +55,7 @@ export class NgrxGeneratorComponent implements OnInit {
     const res = _.cloneDeep(item);
     res.id = Math.floor(Math.random() * (500 - 100 + 1)) + 100;
     this.store.dispatch({
-      type: fromActions.ItemActionTypes.copy,
+      type: fromStore.ItemActionTypes.copy,
       payload: res
     });
     this.snackMessage('Item Copied');
@@ -70,7 +65,7 @@ export class NgrxGeneratorComponent implements OnInit {
     this.snackMessage('Item Deleted');
 
     this.store.dispatch({
-      type: fromActions.ItemActionTypes.remove,
+      type: fromStore.ItemActionTypes.remove,
       payload: item
     });
   }

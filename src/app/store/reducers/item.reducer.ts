@@ -1,4 +1,4 @@
-import { Action, createFeatureSelector } from '@ngrx/store';
+import { Action, createSelector, createFeatureSelector } from '@ngrx/store';
 import * as fromAction from '../actions/item.actions';
 
 
@@ -43,6 +43,8 @@ export function reducer(state = initialState, action: fromAction.ItemActions): S
   }
 }
 
-export const getItemsState = createFeatureSelector<State>(
-  'items'
-);
+export const getItemsLoading = (state: State) => state.loading;
+export const getItemsLoaded = (state: State) => state.loaded;
+export const getItems = (state: State) => state.entities;
+
+
