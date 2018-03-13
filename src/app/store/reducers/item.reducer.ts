@@ -43,8 +43,8 @@ export function reducer(state = initialState, action: fromAction.ItemActions): S
   }
 }
 
-export const getItemsLoading = (state: State) => state.loading;
-export const getItemsLoaded = (state: State) => state.loaded;
-export const getItems = (state: State) => state.entities;
+export const getItemsLoading = ({loading}: State) => loading;
+export const getItemsLoaded = ({loaded}: State) => loaded;
+export const getItems = ({entities}: State) => entities;
 
 
