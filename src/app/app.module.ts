@@ -13,13 +13,15 @@ import { FormsModule } from '@angular/forms';
 import { ClipboardModule } from 'ngx-clipboard';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { reducers, metaReducers } from './store';
+import { GeneratorCardComponent } from './components/generator-card/generator-card.component';
 
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    NgrxGeneratorComponent
+    NgrxGeneratorComponent,
+    GeneratorCardComponent
   ],
   imports: [
     BrowserModule,

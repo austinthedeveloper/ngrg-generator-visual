@@ -39,7 +39,9 @@ export class NgrxGeneratorComponent implements OnInit {
 
   ngOnInit() {
     this.newItem();
-    this.items$ = this.store.select(fromStore.getItems);
+    this.items$ = this.store.select(fromStore.getItems).pipe(
+      tap(res => console.log('change', res))
+    );
   }
 
   newItem() {
@@ -68,32 +70,6 @@ export class NgrxGeneratorComponent implements OnInit {
       type: fromStore.ItemActionTypes.remove,
       payload: item
     });
-  }
-
-  copyClipboard() {
-    this.snackMessage('Copied to Clipboard!');
-  }
-
-  builtString(item: GeneratedItem) {
-    if (!this.checkTypes(item.types)) {
-      return;
-    }
-    let res = '';
-    const flat = item.flags.flat ? '' : ' --flat false';
-    const spec = item.flags.spec ? '' : ' --spec false';
-    const group = item.flags.group ? ' --group true' : '';
-    const test = item.flags.test ? ' --dry-run' : '';
-    const module = item.module ? ` --module ${item.module}` : '';
-    const flags = `${flat}${spec}${group}${test}${module}`;
-    const path = item.path ? `${item.path}/` : '';
-    _.forEach(item.types, (type, key) => {
-      if (type) {
-        const string = `${this.generate} ${key} ${path}${item.name}`;
-        res = res.length ? `${res} ${this.connector} ${string}${flags}` : `${res} ${string}${flags}`;
-      }
-    });
-
-    return res.replace(/\s\s/g, ' ');
   }
 
   snackMessage(message: string, action = 'Dismiss') {
